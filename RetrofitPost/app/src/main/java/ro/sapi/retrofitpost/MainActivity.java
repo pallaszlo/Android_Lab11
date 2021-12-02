@@ -38,10 +38,48 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Button delete = findViewById(R.id.btnDelete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAPIService.deletePost(1).enqueue(new Callback<Post>() {
+                    @Override
+                    public void onResponse(Call<Post> call, Response<Post> response) {
+                        Log.d("delete", response.toString());
+                        Log.d("respCode", String.valueOf(response.code()));
+                    }
+
+                    @Override
+                    public void onFailure(Call<Post> call, Throwable t) {
+                        Log.e("TAG", "Unable to submit post to API.");
+                    }
+                });
+            }
+        });
+
+        Button login = findViewById(R.id.btnLogin);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAPIService.login("eve.holt@reqres.in", "cityslicka").enqueue(new Callback<Result>() {
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        Log.d("delete", response.body().toString());
+                        Log.d("respCode", String.valueOf(response.code()));
+                    }
+
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
     }
 
     public void sendPost(String title, String body) {
-        mAPIService.savePost(new Post(title, body, 1)).enqueue(new Callback<Post>() {
+        mAPIService.savePost(new Post(title, body, 1, 1)).enqueue(new Callback<Post>() {
         //mAPIService.savePost(title, body, 1).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {

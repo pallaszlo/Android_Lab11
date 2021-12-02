@@ -17,11 +17,20 @@ public class Post {
     @SerializedName("id")
     @Expose
     private Integer id;
-
+/*
     public Post(String title, String body, Integer userId) {
         this.title = title;
         this.body = body;
         this.userId = userId;
+    }
+
+ */
+
+    public Post(String title, String body, Integer userId, Integer id) {
+        this.title = title;
+        this.body = body;
+        this.userId = userId;
+        this.id = id;
     }
 
     public String getTitle() {

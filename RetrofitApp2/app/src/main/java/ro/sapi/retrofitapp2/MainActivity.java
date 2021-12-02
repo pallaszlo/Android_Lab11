@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,7 +23,9 @@ public class MainActivity extends AppCompatActivity {
         final TextView textView2 = findViewById(R.id.textView2);
 
         JSONPlaceHolderApi service = NetworkService.getRetrofitInstance().create(JSONPlaceHolderApi.class);
+
         Call<Post> call_1 = service.getPostWithID(1);
+        //Call<Post> call_1 = service.getPostWithID(1);
         call_1.enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
@@ -38,6 +41,26 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<Post> call, Throwable t) {
                 textView.append("Error occurred while getting request!");
                 t.printStackTrace();
+            }
+        });
+
+
+        //ToDo b)
+
+        Call<List<Post>> call2 = service.getPostOfUser(1);
+        call2.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                List<Post> posts = response.body();
+                //Log.i("posts", posts.toString());
+                for(Post post: posts){
+                    System.out.println(post.getTitle()+"\n");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+
             }
         });
 
